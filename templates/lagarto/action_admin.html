@@ -1,0 +1,61 @@
+
+[#if SET_DATASOURCE!="1"#]
+<!-- / source select -->
+[#endif SET_DATASOURCE#]
+ <!-- action usual -->
+ [#if DATA_SOURCE="lagartoservers" || DATA_SOURCE=""#]
+ <!-- table lagartoservers search -->
+ [#if VIEW_MODE="search_lagartoservers" || VIEW_MODE=""#]
+  [#inc lagartoservers_search_admin.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoservers search -->
+ <!-- table lagartoservers edit -->
+ [#if VIEW_MODE="edit_lagartoservers"#]
+   [#if ID!=""#]
+   [#if TITLE!=""#]<h4>[#TITLE#]</h4>[#endif TITLE#]
+<ul class="nav nav-tabs">
+  <li[#if TAB=""#] class="active"[#endif#]>
+   <a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab="><#LANG_GENERAL#></a>
+  </li>
+  <li[#if TAB="data"#] class="active"[#endif#]>
+   <a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=data"><#LANG_DATA#></a>
+  </li>
+</ul>
+   [#endif ID#]
+   [#if TAB=""#]
+    [#inc lagartoservers_edit_default.html#]
+   [#endif TAB#]
+   [#if TAB="data"#]
+    [#inc lagartoservers_edit_data.html#]
+   [#endif TAB#]
+   [#if TAB="config"#]
+    [#inc lagartoservers_edit_config.html#]
+   [#endif TAB#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoservers edit -->
+ <!-- table lagartoservers view --> 
+ [#if VIEW_MODE="view_lagartoservers"#]
+   [#if TAB=""#]
+    [#inc lagartoservers_view_default.html#]
+   [#endif TAB#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoservers view -->
+ [#endif DATA_SOURCE#]
+ <!-- action usual -->
+ [#if DATA_SOURCE="lagartoendpoints"#]
+ <!-- table lagartoendpoints search -->
+ [#if VIEW_MODE="search_lagartoendpoints" || VIEW_MODE=""#]
+  [#inc lagartoendpoints_search_admin.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoendpoints search -->
+ <!-- table lagartoendpoints edit -->
+ [#if VIEW_MODE="edit_lagartoendpoints"#]
+   [#inc lagartoendpoints_edit.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoendpoints edit -->
+ <!-- table lagartoendpoints view --> 
+ [#if VIEW_MODE="view_lagartoendpoints"#]
+   [#inc lagartoendpoints_view.html#]
+ [#endif VIEW_MODE#]
+ <!-- / table lagartoendpoints view -->
+ [#endif DATA_SOURCE#]

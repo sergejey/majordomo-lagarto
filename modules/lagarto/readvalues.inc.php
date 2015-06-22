@@ -10,7 +10,9 @@
     $record['NEXT_UPDATE']=date('Y-m-d H:i:s', time()+$record['UPDATE_PERIOD']);
     SQLUpdate('lagartoservers', $record);
   }
-  $content=getURL('http://' . $record['IP'] . ':' . $record['PORT'] . '/values?', 0);
+  if ($content=='') {
+   $content=getURL('http://' . $record['IP'] . ':' . $record['PORT'] . '/values?', 0);
+  }
  }
 
  $data=json_decode($content, TRUE);

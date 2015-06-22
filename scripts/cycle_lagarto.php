@@ -28,13 +28,63 @@ $ctl = new control_modules();
 
 echo date("H:i:s") . " running " . basename(__FILE__) . "\n";
 
+if (class_exists('ZMQSocket')) {
+//ZMQ PHP-library available
+ $connected=array();
+ $zmq_sockets=array();
+
+ $connected_total=0;
+ $servers=SQLSelect("SELECT * FROM lagartoservers");
+ $total=count($servers);
+ for($i=0;$i<$total;$i++) {
+  if ($servers[$i]['IP']=='localhost' || $servers[$i]['IP']=='127.0.0.1') {
+  }
+
+  echo "Server ".$servers[$i]['IP']."\n";
+  $zmq_socket = new ZMQSocket(new ZMQContext(), ZMQ::SOCKET_SUB);
+  if ($zmq_socket->connect("tcp://".$servers[$i]['IP'].":5001")) {
+   echo "Connected\n";
+   $zmq_socket->setSockOpt(ZMQ::SOCKOPT_SUBSCRIBE, '');
+   $connected[$i]=$servers[$i]['ID'];
+   $connected_total++;
+   $zmq_sockets[$i]=&$zmq_socket;
+  } else {
+   $zmq_sockets[$i]=0;
+   $connected[$i]=0;
+   echo "Could not connect\n";
+  }
+ }
+
+ if ($connected_total>0) {
+  while (true) {
+    $total=count($servers);
+    for($i=0;$i<$total;$i++) {
+     if (!$connected[$i]) {
+      continue;
+     }
+     $data = $zmq_sockets[$i]->recv(ZMQ::MODE_NOBLOCK);
+     if ($data) {
+      echo date("H:i:s") . "Received: $data\n";
+      $lagarto->readValues($connected[$i], '', $data);
+     }
+    }
+
+    if (file_exists('./reboot') || $_GET['onetime']) 
+    {
+       $db->Disconnect();
+       exit;
+    }
+
+  }
+ }
+
+}
+
+// no ZMQ PHP-library available
 while(1) 
 {
    setGlobal((str_replace('.php', '', basename(__FILE__))).'Run', time(), 1);
-
-   // check all 1wire devices
    $lagarto->updateDevices(); 
-  
    if (file_exists('./reboot') || $_GET['onetime']) 
    {
       $db->Disconnect();

@@ -186,7 +186,7 @@ function usual(&$out) {
   require(DIR_MODULES.$this->name.'/lagartoservers_search.inc.php');
  }
 
- function readValues($id, $endpoint_id='') {
+ function readValues($id, $endpoint_id='', $content='') {
   require(DIR_MODULES.$this->name.'/readvalues.inc.php');
  }
 

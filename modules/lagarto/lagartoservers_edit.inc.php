@@ -59,6 +59,12 @@
      $rec['ID']=SQLInsert($table_name, $rec); // adding new record
 
      $this->readValues($rec['ID']);
+
+     $tmp=SQLSelectOne("SELECT COUNT(*) as TOTAL FROM ".$table_name);
+     if ($tmp['TOTAL']==1) {
+      @SaveFile(ROOT.'reboot'); // first device added, need reboot
+     }
+
      /*
      $total=8;
      for($i=0;$i<$total;$i++) {

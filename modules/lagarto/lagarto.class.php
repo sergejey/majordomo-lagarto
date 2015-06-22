@@ -337,6 +337,7 @@ lagartoendpoints - lagarto Properties
  lagartoservers: MDID varchar(255) NOT NULL DEFAULT ''
  lagartoservers: TYPE varchar(255) NOT NULL DEFAULT ''
  lagartoservers: PORT int(10) NOT NULL DEFAULT '0'
+ lagartoservers: ZMQPORT int(10) NOT NULL DEFAULT '0'
  lagartoservers: IP varchar(255) NOT NULL DEFAULT ''
  lagartoservers: PASSWORD varchar(255) NOT NULL DEFAULT ''
  lagartoservers: UPDATE_PERIOD int(10) NOT NULL DEFAULT '0'

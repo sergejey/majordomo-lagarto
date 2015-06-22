@@ -37,12 +37,19 @@ if (class_exists('ZMQSocket')) {
  $servers=SQLSelect("SELECT * FROM lagartoservers");
  $total=count($servers);
  for($i=0;$i<$total;$i++) {
+  /*
   if ($servers[$i]['IP']=='localhost' || $servers[$i]['IP']=='127.0.0.1') {
+   continue;
+  }
+  */
+
+  if (!$servers[$i]['ZMQPORT']) {
+   continue;
   }
 
-  echo "Server ".$servers[$i]['IP']."\n";
+  echo "ZMQ server ".$servers[$i]['IP'].":".$servers[$i]['ZMQPORT']."\n";
   $zmq_socket = new ZMQSocket(new ZMQContext(), ZMQ::SOCKET_SUB);
-  if ($zmq_socket->connect("tcp://".$servers[$i]['IP'].":5001")) {
+  if ($zmq_socket->connect("tcp://".$servers[$i]['IP'].":".$servers[$i]['ZMQPORT'])) {
    echo "Connected\n";
    $zmq_socket->setSockOpt(ZMQ::SOCKOPT_SUBSCRIBE, '');
    $connected[$i]=$servers[$i]['ID'];
@@ -64,7 +71,7 @@ if (class_exists('ZMQSocket')) {
      }
      $data = $zmq_sockets[$i]->recv(ZMQ::MODE_NOBLOCK);
      if ($data) {
-      echo date("H:i:s") . "Received: $data\n";
+      echo date("H:i:s") . " Received: $data\n";
       $lagarto->readValues($connected[$i], '', $data);
      }
     }

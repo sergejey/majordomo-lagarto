@@ -31,6 +31,10 @@
    global $port;
    $rec['PORT']=(int)$port;
 
+   global $zmqport;
+   $rec['ZMQPORT']=(int)$zmqport;
+
+
    if (!$rec['PORT']) {
     $ok=0;
     $out['ERR_PORT']=1;

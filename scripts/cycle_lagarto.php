@@ -76,7 +76,7 @@ if (class_exists('ZMQSocket')) {
      }
     }
 
-    if (file_exists('./reboot') || $_GET['onetime']) 
+    if (file_exists('./reboot') || IsSet($_GET['onetime'])) 
     {
        $db->Disconnect();
        exit;
@@ -92,7 +92,7 @@ while(1)
 {
    setGlobal((str_replace('.php', '', basename(__FILE__))).'Run', time(), 1);
    $lagarto->updateDevices(); 
-   if (file_exists('./reboot') || $_GET['onetime']) 
+   if (file_exists('./reboot') || IsSet($_GET['onetime'])) 
    {
       $db->Disconnect();
       exit;

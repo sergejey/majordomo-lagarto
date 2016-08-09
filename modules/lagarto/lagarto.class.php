@@ -325,7 +325,7 @@ function usual(&$out) {
 *
 * @access private
 */
- function dbInstall() {
+ function dbInstall($data) {
 /*
 lagartoservers - lagarto Devices
 lagartoendpoints - lagarto Properties
